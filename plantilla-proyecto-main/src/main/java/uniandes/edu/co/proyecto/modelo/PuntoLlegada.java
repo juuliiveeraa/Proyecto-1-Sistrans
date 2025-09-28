@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "punto_llegada")
 public class PuntoLlegada {
-     @EmbeddedId
+    @EmbeddedId
     private PuntoLlegadaPK pk;
 
     public PuntoLlegada() {}
