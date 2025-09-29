@@ -13,6 +13,9 @@ import uniandes.edu.co.proyecto.repositorio.UsuarioServicioRepository;
 
 import java.sql.Date;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/usuariosServicio")
@@ -43,24 +46,49 @@ public class UsuarioServicioController {
 
     // Crear un nuevo usuario servicio
     @PostMapping("/{idUsuario}/new/save")
-    public ResponseEntity<String> convertirEnUsuarioServicio(
+    public ResponseEntity<?> convertirEnUsuarioServicio(
             @PathVariable Integer idUsuario,
             @RequestBody UsuarioServicio datosTarjeta) {
 
-        Usuario usuario = usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        try {
+            Usuario usuario = usuarioRepository.findById(idUsuario)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        usuarioServicioRepository.insertarUsuarioServicio(
-                usuario.getIdUsuario(),
-                datosTarjeta.getTarjetaNumero(),
-                datosTarjeta.getTarjetaNombre(),
-                datosTarjeta.getTarjetaVencimiento(),
-                datosTarjeta.getTarjetaCodigoSeguridad()
-        );
+            // Insertar usuario servicio
+            usuarioServicioRepository.insertarUsuarioServicio(
+                    usuario.getIdUsuario(),
+                    datosTarjeta.getTarjetaNumero(),
+                    datosTarjeta.getTarjetaNombre(),
+                    datosTarjeta.getTarjetaVencimiento(),
+                    datosTarjeta.getTarjetaCodigoSeguridad()
+            );
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Usuario convertido en UsuarioServicio con éxito");
+            // Recuperar el usuario servicio recién insertado
+            UsuarioServicio nuevoUsuarioServicio = usuarioServicioRepository.buscarPorTarjeta(datosTarjeta.getTarjetaNumero());
+
+            if (nuevoUsuarioServicio == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Collections.singletonMap("error", "No se pudo recuperar el usuario servicio creado"));
+            }
+
+            // Construir respuesta en JSON
+            Map<String, Object> response = new HashMap<>();
+            response.put("id_usuario", nuevoUsuarioServicio.getIdUsuario());
+            response.put("tarjeta_numero", nuevoUsuarioServicio.getTarjetaNumero());
+            response.put("tarjeta_nombre", nuevoUsuarioServicio.getTarjetaNombre());
+            response.put("tarjeta_vencimiento", nuevoUsuarioServicio.getTarjetaVencimiento());
+            response.put("tarjeta_codigo_seguridad", nuevoUsuarioServicio.getTarjetaCodigoSeguridad());
+            response.put("mensaje", "Usuario convertido en UsuarioServicio con éxito");
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("error", e.getMessage()));
+        }
     }
+
 
 
     // Actualizar un usuario servicio existente

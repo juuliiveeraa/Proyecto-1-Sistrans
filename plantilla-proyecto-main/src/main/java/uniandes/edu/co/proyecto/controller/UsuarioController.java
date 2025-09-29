@@ -9,6 +9,9 @@ import uniandes.edu.co.proyecto.modelo.Usuario;
 import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -39,12 +42,42 @@ public class UsuarioController {
     @PostMapping("/new/save")
     public ResponseEntity<?> crearUsuario(@RequestBody Usuario usuario) {
         try {
-            usuarioRepository.insertarUsuario(usuario.getNombre(), usuario.getCorreo(), usuario.getCelular(), usuario.getCedula(), usuario.getCalificacionPromedio());
-            return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado exitosamente");
+            // Insertar el usuario
+            usuarioRepository.insertarUsuario(
+                usuario.getNombre(),
+                usuario.getCorreo(),
+                usuario.getCelular(),
+                usuario.getCedula(),
+                usuario.getCalificacionPromedio()
+            );
+
+            // Recuperar el usuario recién insertado por la cédula
+            Usuario nuevoUsuario = usuarioRepository.buscarUsuarioPorCedula(usuario.getCedula());
+
+            if (nuevoUsuario == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Collections.singletonMap("error", "No se pudo recuperar el usuario creado"));
+            }
+
+            // Respuesta estilo CiudadController
+            Map<String, Object> response = new HashMap<>();
+            response.put("id_usuario", nuevoUsuario.getIdUsuario());
+            response.put("nombre", nuevoUsuario.getNombre());
+            response.put("correo", nuevoUsuario.getCorreo());
+            response.put("celular", nuevoUsuario.getCelular());
+            response.put("cedula", nuevoUsuario.getCedula());
+            response.put("calificacion_promedio", nuevoUsuario.getCalificacionPromedio());
+            response.put("mensaje", "Usuario creado exitosamente");
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el usuario");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("error", e.getMessage()));
         }
     }
+
 
     @PostMapping("/{id}/edit/save")
     public ResponseEntity<?> actualizarUsuario(@PathVariable("id") Integer id, @RequestBody Usuario usuario) {

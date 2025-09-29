@@ -46,4 +46,9 @@ public interface UsuarioServicioRepository extends JpaRepository<UsuarioServicio
     @Transactional
     @Query(value = "DELETE FROM USUARIO_SERVICIO WHERE ID_USUARIO = :idUsuario", nativeQuery = true)
     void eliminarUsuarioServicio(@Param("idUsuario") Integer idUsuario);
+
+    // Buscar usuario servicio por número de tarjeta
+    @Query(value = "SELECT * FROM USUARIO_SERVICIO WHERE TARJETA_NUMERO = :tarjetaNumero", nativeQuery = true)
+    UsuarioServicio buscarPorTarjeta(@Param("tarjetaNumero") String tarjetaNumero);
+
 }

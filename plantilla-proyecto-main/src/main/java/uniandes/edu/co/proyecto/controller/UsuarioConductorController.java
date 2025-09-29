@@ -11,6 +11,9 @@ import uniandes.edu.co.proyecto.repositorio.UsuarioConductorRepository;
 import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/usuariosConductores")
@@ -40,17 +43,37 @@ public class UsuarioConductorController {
 
     // Crear un nuevo usuario conductor
     @PostMapping("/{idUsuario}/new/save")
-    public ResponseEntity<String> crearUsuarioConductor(@PathVariable Integer idUsuario) {
-        // Verificar que el usuario exista
-        Usuario usuario = usuarioRepository.findById(idUsuario)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    public ResponseEntity<?> convertirEnUsuarioConductor(@PathVariable Integer idUsuario) {
+        try {
+            // Verificar que el usuario base exista
+            Usuario usuario = usuarioRepository.findById(idUsuario)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Insertar el registro en usuario_conductor
-        usuarioConductorRepository.insertarUsuarioConductor(usuario.getIdUsuario());
+            // Insertar en usuario_conductor
+            usuarioConductorRepository.insertarUsuarioConductor(usuario.getIdUsuario());
 
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body("Usuario conductor creado con éxito");
+            // Recuperar el usuario conductor recién insertado
+            UsuarioConductor nuevoUsuarioConductor = usuarioConductorRepository.darUsuarioConductor(usuario.getIdUsuario());
+
+            if (nuevoUsuarioConductor == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Collections.singletonMap("error", "No se pudo recuperar el usuario conductor creado"));
+            }
+
+            // Construir respuesta en JSON
+            Map<String, Object> response = new HashMap<>();
+            response.put("id_usuario", nuevoUsuarioConductor.getIdUsuario());
+            response.put("mensaje", "Usuario convertido en UsuarioConductor con éxito");
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("error", e.getMessage()));
+        }
     }
+
 
     // Actualizar un usuario conductor existente
     @PutMapping("/{idUsuario}/update")

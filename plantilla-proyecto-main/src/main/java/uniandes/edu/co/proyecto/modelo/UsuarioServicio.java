@@ -11,13 +11,13 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-@Table(name = "usuario_servicio")
+@Table(name = "USUARIO_SERVICIO")
 public class UsuarioServicio {
     @Id
     private Integer idUsuario;
 
     @OneToOne
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
+    @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO ")
     private Usuario usuario;
 
 
