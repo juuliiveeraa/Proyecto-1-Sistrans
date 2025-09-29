@@ -20,6 +20,9 @@ public interface CiudadRepository extends JpaRepository<Ciudad, Integer> {
     Collection<Ciudad> darCiudades();
 
     // Obtener ciudad por ID
+    @Query(value = "SELECT * FROM CIUDAD WHERE NOMBRE = :nombre", nativeQuery = true)
+    Ciudad darCiudadNombre(@Param("nombre") String nombre);
+
     @Query(value = "SELECT * FROM CIUDAD WHERE ID_CIUDAD = :id", nativeQuery = true)
     Ciudad darCiudad(@Param("id") Integer id);
 

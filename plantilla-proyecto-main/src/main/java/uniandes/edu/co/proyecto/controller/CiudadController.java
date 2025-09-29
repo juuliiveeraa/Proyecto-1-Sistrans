@@ -9,6 +9,9 @@ import uniandes.edu.co.proyecto.modelo.Ciudad;
 import uniandes.edu.co.proyecto.repositorio.CiudadRepository;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/ciudades")
@@ -36,15 +39,33 @@ public class CiudadController {
         }
     }
 
-    @PostMapping("/new/save")
-    public ResponseEntity<?> crearCiudad(@RequestBody Ciudad ciudad) {
-        try {
-            ciudadRepository.insertarCiudad(ciudad.getNombre());
-            return ResponseEntity.status(HttpStatus.CREATED).body("Ciudad creada exitosamente");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la ciudad: " + e.getMessage());
+@PostMapping("/new/save")
+public ResponseEntity<?> crearCiudad(@RequestBody Ciudad ciudad) {
+    try {
+        ciudadRepository.insertarCiudad(ciudad.getNombre());
+
+        Ciudad nuevaCiudad = ciudadRepository.darCiudadNombre(ciudad.getNombre());
+
+        if (nuevaCiudad == null) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body(Collections.singletonMap("error", "No se pudo recuperar la ciudad creada"));
         }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("id_ciudad", nuevaCiudad.getIdCiudad());
+        response.put("nombre", nuevaCiudad.getNombre());
+        response.put("mensaje", "Ciudad creada exitosamente");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
+    } catch (Exception e) {
+        e.printStackTrace(); 
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                             .body(Collections.singletonMap("error", e.getMessage()));
     }
+}
+
+
 
     @PostMapping("/{id}/edit/save")
     public ResponseEntity<?> actualizarCiudad(@PathVariable("id") Integer id, @RequestBody Ciudad ciudad) {

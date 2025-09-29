@@ -6,13 +6,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "ciudad")
+@Table(name = "CIUDAD")
 public class Ciudad {
     @Id
-    @Column(name = "id_ciudad")
+    @Column(name = "ID_CIUDAD", nullable = false)
     private Integer idCiudad;
 
-    @Column(name = "nombre", nullable = false, unique = true, length = 100)
+    @Column(name = "NOMBRE", nullable = false, unique = true, length = 100)
     private String nombre;
 
     public Ciudad() {}
