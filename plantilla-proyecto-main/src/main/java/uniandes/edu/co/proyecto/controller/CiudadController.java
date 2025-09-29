@@ -42,7 +42,7 @@ public class CiudadController {
             ciudadRepository.insertarCiudad(ciudad.getNombre());
             return ResponseEntity.status(HttpStatus.CREATED).body("Ciudad creada exitosamente");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la ciudad");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear la ciudad: " + e.getMessage());
         }
     }
 
