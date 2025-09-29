@@ -2,6 +2,9 @@ package uniandes.edu.co.proyecto.controller;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,18 +43,44 @@ public class DisponibilidadVehiculoController {
     }
 
     // Insertar nueva disponibilidad
-    @PostMapping("/new/save")
+    @PostMapping("/{id}/new/save")
     public ResponseEntity<?> disponibilidadGuardar(@RequestBody DisponibilidadVehiculo disponibilidad) {
         try {
+            // Insertar disponibilidad
             disponibilidadVehiculoRepository.insertarDisponibilidad(
                     disponibilidad.getVehiculo().getIdVehiculo(),
                     disponibilidad.getDia(),
-                    Timestamp.valueOf(disponibilidad.getHoraInicio()), 
+                    Timestamp.valueOf(disponibilidad.getHoraInicio()),
                     Timestamp.valueOf(disponibilidad.getHoraFin())
             );
-            return ResponseEntity.status(HttpStatus.CREATED).body("Disponibilidad creada exitosamente");
+
+            // Recuperar la disponibilidad recién insertada
+            DisponibilidadVehiculo nuevaDisponibilidad = disponibilidadVehiculoRepository.buscarPorVehiculoDiaHora(
+                    disponibilidad.getVehiculo().getIdVehiculo(),
+                    disponibilidad.getDia(),
+                    Timestamp.valueOf(disponibilidad.getHoraInicio())
+            );
+
+            if (nuevaDisponibilidad == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Collections.singletonMap("error", "No se pudo recuperar la disponibilidad creada"));
+            }
+
+            // Construir JSON de respuesta
+            Map<String, Object> response = new HashMap<>();
+            response.put("id_disponibilidad", nuevaDisponibilidad.getIdDisponibilidad());
+            response.put("id_vehiculo", nuevaDisponibilidad.getVehiculo().getIdVehiculo());
+            response.put("dia", nuevaDisponibilidad.getDia());
+            response.put("hora_inicio", nuevaDisponibilidad.getHoraInicio().toString());
+            response.put("hora_fin", nuevaDisponibilidad.getHoraFin().toString());
+            response.put("mensaje", "Disponibilidad creada con éxito");
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
         } catch (Exception e) {
-            return new ResponseEntity<>("Error al crear la disponibilidad", HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("error", e.getMessage()));
         }
     }
 
@@ -74,7 +103,7 @@ public class DisponibilidadVehiculoController {
     }
 
     // Eliminar disponibilidad
-    @GetMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> disponibilidadBorrar(@PathVariable("id") Integer id) {
         try {
             disponibilidadVehiculoRepository.eliminarDisponibilidad(id);

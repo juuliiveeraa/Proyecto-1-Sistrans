@@ -27,8 +27,10 @@ public interface DisponibilidadVehiculoRepository extends JpaRepository<Disponib
     // Insertar disponibilidad
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO DISPONIBILIDAD_VEHICULO (ID_DISPONIBILIDAD, ID_VEHICULO, DIA, HORA_INICIO, HORA_FIN) " +
-                   "VALUES (DISPONIBILIDAD_VEHICULO_SEQ.nextval, :idVehiculo, :dia, :horaInicio, :horaFin)", nativeQuery = true)
+    @Query(value = "INSERT INTO DISPONIBILIDAD_VEHICULO " +
+               "(ID_DISPONIBILIDAD, ID_VEHICULO, DIA, HORA_INICIO, HORA_FIN) " +
+               "VALUES (DISPONIBILIDAD_VEHICULO_SEQ.nextval, :idVehiculo, :dia, :horaInicio, :horaFin)",
+       nativeQuery = true)
     void insertarDisponibilidad(@Param("idVehiculo") Integer idVehiculo,
                                 @Param("dia") String dia,
                                 @Param("horaInicio") Timestamp horaInicio,
@@ -50,4 +52,13 @@ public interface DisponibilidadVehiculoRepository extends JpaRepository<Disponib
     @Transactional
     @Query(value = "DELETE FROM DISPONIBILIDAD_VEHICULO WHERE ID_DISPONIBILIDAD = :id", nativeQuery = true)
     void eliminarDisponibilidad(@Param("id") Integer id);
+
+    @Query(value = "SELECT * FROM DISPONIBILIDAD_VEHICULO " +
+               "WHERE ID_VEHICULO = :idVehiculo AND DIA = :dia AND HORA_INICIO = :horaInicio", 
+       nativeQuery = true)
+        DisponibilidadVehiculo buscarPorVehiculoDiaHora(
+        @Param("idVehiculo") Integer idVehiculo,
+        @Param("dia") String dia,
+        @Param("horaInicio") Timestamp horaInicio);
+
 }
