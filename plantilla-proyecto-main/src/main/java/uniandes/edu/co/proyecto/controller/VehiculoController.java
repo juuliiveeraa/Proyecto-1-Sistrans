@@ -5,10 +5,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import uniandes.edu.co.proyecto.modelo.UsuarioConductor;
 import uniandes.edu.co.proyecto.modelo.Vehiculo;
 import uniandes.edu.co.proyecto.repositorio.VehiculoRepository;
+import uniandes.edu.co.proyecto.repositorio.UsuarioConductorRepository;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/vehiculos")
@@ -16,6 +21,9 @@ public class VehiculoController {
 
     @Autowired
     private VehiculoRepository vehiculoRepository;
+
+    @Autowired
+    private UsuarioConductorRepository usuarioConductorRepository;
 
     @GetMapping
     public ResponseEntity<Collection<Vehiculo>> getVehiculos() {
@@ -36,11 +44,15 @@ public class VehiculoController {
         }
     }
 
-    @PostMapping("/new/save")
+    @PostMapping("/{id}/new/save")
     public ResponseEntity<?> crearVehiculo(@RequestBody Vehiculo vehiculo) {
         try {
+            if (vehiculo.getConductor() == null || vehiculo.getConductor().getIdUsuario() == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Collections.singletonMap("error", "El vehículo debe tener un conductor válido"));
+            }
+
             vehiculoRepository.insertarVehiculo(
-                    vehiculo.getIdVehiculo(),
                     vehiculo.getConductor().getIdUsuario(),
                     vehiculo.getTipo(),
                     vehiculo.getMarca(),
@@ -51,9 +63,24 @@ public class VehiculoController {
                     vehiculo.getCapacidad(),
                     vehiculo.getNivel()
             );
-            return ResponseEntity.status(HttpStatus.CREATED).body("Vehiculo creado exitosamente");
+
+            Vehiculo vehiculoCreado = vehiculoRepository.darVehiculoPorPlaca(vehiculo.getPlaca());
+
+            if (vehiculoCreado == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Collections.singletonMap("error", "No se pudo recuperar el vehículo creado"));
+            }
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("id_vehiculo", vehiculoCreado.getIdVehiculo());
+            response.put("mensaje", "Vehículo creado exitosamente");
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el vehiculo");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("error", e.getMessage()));
         }
     }
 
@@ -78,7 +105,7 @@ public class VehiculoController {
         }
     }
 
-    @GetMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> eliminarVehiculo(@PathVariable("id") Integer id) {
         try {
             vehiculoRepository.eliminarVehiculo(id);

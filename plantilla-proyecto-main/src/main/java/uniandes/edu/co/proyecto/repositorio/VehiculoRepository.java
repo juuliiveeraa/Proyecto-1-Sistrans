@@ -22,17 +22,18 @@ public interface VehiculoRepository extends JpaRepository<Vehiculo, Integer> {
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO VEHICULO (ID_VEHICULO, ID_CONDUCTOR, TIPO, MARCA, MODELO, COLOR, PLACA, CIUDAD_EXPEDICION, CAPACIDAD, NIVEL) " +
-            "VALUES (:idVehiculo, :idConductor, :tipo, :marca, :modelo, :color, :placa, :ciudadExpedicion, :capacidad, :nivel)", nativeQuery = true)
-    void insertarVehiculo(@Param("idVehiculo") Integer idVehiculo,
-                          @Param("idConductor") Integer idConductor,
-                          @Param("tipo") String tipo,
-                          @Param("marca") String marca,
-                          @Param("modelo") String modelo,
-                          @Param("color") String color,
-                          @Param("placa") String placa,
-                          @Param("ciudadExpedicion") String ciudadExpedicion,
-                          @Param("capacidad") Integer capacidad,
-                          @Param("nivel") String nivel);
+        "VALUES (VEHICULO_SEQ.NEXTVAL, :idConductor, :tipo, :marca, :modelo, :color, :placa, :ciudadExpedicion, :capacidad, :nivel)", 
+        nativeQuery = true)
+    void insertarVehiculo(@Param("idConductor") Integer idConductor,
+        @Param("tipo") String tipo,
+        @Param("marca") String marca,
+        @Param("modelo") String modelo,
+        @Param("color") String color,
+        @Param("placa") String placa,
+        @Param("ciudadExpedicion") String ciudadExpedicion,
+        @Param("capacidad") Integer capacidad,
+        @Param("nivel") String nivel);
+
 
     @Modifying
     @Transactional
@@ -53,4 +54,8 @@ public interface VehiculoRepository extends JpaRepository<Vehiculo, Integer> {
     @Transactional
     @Query(value = "DELETE FROM VEHICULO WHERE ID_VEHICULO = :idVehiculo", nativeQuery = true)
     void eliminarVehiculo(@Param("idVehiculo") Integer idVehiculo);
+
+    @Query(value = "SELECT * FROM VEHICULO WHERE PLACA = :placa", nativeQuery = true)
+    Vehiculo darVehiculoPorPlaca(@Param("placa") String placa);
+
 }
