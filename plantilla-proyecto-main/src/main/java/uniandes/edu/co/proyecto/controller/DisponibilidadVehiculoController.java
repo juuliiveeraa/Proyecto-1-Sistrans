@@ -84,11 +84,13 @@ public class DisponibilidadVehiculoController {
         }
     }
 
-    // Actualizar disponibilidad existente
-    @PostMapping("/{id}/edit/save")
-    public ResponseEntity<?> disponibilidadEditarGuardar(@PathVariable("id") Integer id,
-                                                         @RequestBody DisponibilidadVehiculo disponibilidad) {
+     @PostMapping("/{id}/edit/save")
+    public ResponseEntity<?> disponibilidadEditarGuardar(
+            @PathVariable("id") Integer id,
+            @RequestBody DisponibilidadVehiculo disponibilidad) {
+
         try {
+            // Actualizar la disponibilidad
             disponibilidadVehiculoRepository.actualizarDisponibilidad(
                     id,
                     disponibilidad.getVehiculo().getIdVehiculo(),
@@ -96,9 +98,35 @@ public class DisponibilidadVehiculoController {
                     Timestamp.valueOf(disponibilidad.getHoraInicio()),
                     Timestamp.valueOf(disponibilidad.getHoraFin())
             );
-            return ResponseEntity.ok("Disponibilidad actualizada exitosamente");
+
+            // Recuperar la disponibilidad actualizada
+            DisponibilidadVehiculo disponibilidadActualizada = disponibilidadVehiculoRepository
+                    .buscarPorVehiculoDiaHora(
+                            disponibilidad.getVehiculo().getIdVehiculo(),
+                            disponibilidad.getDia(),
+                            Timestamp.valueOf(disponibilidad.getHoraInicio())
+                    );
+
+            if (disponibilidadActualizada == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Collections.singletonMap("error", "No se pudo recuperar la disponibilidad actualizada"));
+            }
+
+            // Construir respuesta JSON
+            Map<String, Object> response = new HashMap<>();
+            response.put("id_disponibilidad", disponibilidadActualizada.getIdDisponibilidad());
+            response.put("id_vehiculo", disponibilidadActualizada.getVehiculo().getIdVehiculo());
+            response.put("dia", disponibilidadActualizada.getDia());
+            response.put("hora_inicio", disponibilidadActualizada.getHoraInicio().toString());
+            response.put("hora_fin", disponibilidadActualizada.getHoraFin().toString());
+            response.put("mensaje", "Disponibilidad actualizada exitosamente");
+
+            return ResponseEntity.ok(response);
+
         } catch (Exception e) {
-            return new ResponseEntity<>("Error al editar la disponibilidad", HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("error", e.getMessage()));
         }
     }
 

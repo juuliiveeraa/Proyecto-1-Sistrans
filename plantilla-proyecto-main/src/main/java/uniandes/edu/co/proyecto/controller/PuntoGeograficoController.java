@@ -1,6 +1,9 @@
 package uniandes.edu.co.proyecto.controller;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,15 +45,37 @@ public class PuntoGeograficoController {
     @PostMapping("/new/save")
     public ResponseEntity<?> puntoGuardar(@RequestBody PuntoGeografico punto) {
         try {
+            // Insertar punto
             puntoGeograficoRepository.insertarPunto(
                     punto.getNombre(),
                     punto.getDireccion(),
                     punto.getCoordenadas(),
                     punto.getCiudad().getIdCiudad()
             );
-            return ResponseEntity.status(HttpStatus.CREATED).body("Punto creado exitosamente");
+
+            // Recuperar el punto recién insertado por su nombre
+            PuntoGeografico nuevoPunto = puntoGeograficoRepository.buscarPorNombre(punto.getNombre());
+
+            if (nuevoPunto == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(Collections.singletonMap("error", "No se pudo recuperar el punto creado"));
+            }
+
+            // Construir la respuesta JSON
+            Map<String, Object> response = new HashMap<>();
+            response.put("id_punto", nuevoPunto.getIdPunto());
+            response.put("nombre", nuevoPunto.getNombre());
+            response.put("direccion", nuevoPunto.getDireccion());
+            response.put("coordenadas", nuevoPunto.getCoordenadas());
+            response.put("id_ciudad", nuevoPunto.getCiudad().getIdCiudad());
+            response.put("mensaje", "Punto creado exitosamente");
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+
         } catch (Exception e) {
-            return new ResponseEntity<>("Error al crear el punto", HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("error", e.getMessage()));
         }
     }
 
@@ -72,7 +97,7 @@ public class PuntoGeograficoController {
     }
 
     // Eliminar un punto
-    @GetMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> puntoBorrar(@PathVariable("id") Integer id) {
         try {
             puntoGeograficoRepository.eliminarPunto(id);

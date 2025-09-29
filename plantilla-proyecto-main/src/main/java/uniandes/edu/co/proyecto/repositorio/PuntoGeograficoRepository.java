@@ -27,7 +27,7 @@ public interface PuntoGeograficoRepository extends JpaRepository<PuntoGeografico
     @Modifying
     @Transactional
     @Query(value = "INSERT INTO PUNTO_GEOGRAFICO (ID_PUNTO, NOMBRE, DIRECCION, COORDENADAS, ID_CIUDAD) " +
-                   "VALUES (PUNTO_GEOGRAFICO_SEQ.nextval, :nombre, :direccion, :coordenadas, :idCiudad)", nativeQuery = true)
+                   "VALUES (PUNTO_GEOGRAFICO_SEQ.NEXTVAL, :nombre, :direccion, :coordenadas, :idCiudad)", nativeQuery = true)
     void insertarPunto(@Param("nombre") String nombre,
                        @Param("direccion") String direccion,
                        @Param("coordenadas") String coordenadas,
@@ -49,4 +49,9 @@ public interface PuntoGeograficoRepository extends JpaRepository<PuntoGeografico
     @Transactional
     @Query(value = "DELETE FROM PUNTO_GEOGRAFICO WHERE ID_PUNTO = :id", nativeQuery = true)
     void eliminarPunto(@Param("id") Integer id);
+
+    // Buscar por nombre único
+    @Query(value = "SELECT * FROM PUNTO_GEOGRAFICO WHERE NOMBRE = :nombre", nativeQuery = true)
+    PuntoGeografico buscarPorNombre(@Param("nombre") String nombre);
+
 }
