@@ -20,11 +20,11 @@ public class ComisionConductor {
     private UsuarioConductor usuarioConductor;
 
     @Column(name = "monto", nullable = false)
-    private Integer monto;
+    private Double monto;
 
     public ComisionConductor() {}
 
-    public ComisionConductor(Integer idComision, UsuarioConductor usuarioConductor, Integer monto) {
+    public ComisionConductor(Integer idComision, UsuarioConductor usuarioConductor, Double monto) {
         this.idComision = idComision;
         this.usuarioConductor = usuarioConductor;
         this.monto = monto;
@@ -47,11 +47,11 @@ public class ComisionConductor {
         this.usuarioConductor = usuarioConductor;
     }
 
-    public Integer getMonto() {
+    public Double getMonto() {
         return monto;
     }
 
-    public void setMonto(Integer monto) {
+    public void setMonto(Double monto) {
         this.monto = monto;
     }
 }
