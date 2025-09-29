@@ -64,7 +64,7 @@ public class UsuarioServicioController {
 
 
     // Actualizar un usuario servicio existente
-    @PutMapping("/{idUsuario}")
+    @PutMapping("/{idUsuario}/update")
     public ResponseEntity<String> actualizarUsuarioServicio(
             @PathVariable Integer idUsuario,
             @RequestParam String tarjetaNumero,

@@ -5,8 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import uniandes.edu.co.proyecto.modelo.Usuario;
 import uniandes.edu.co.proyecto.modelo.UsuarioConductor;
 import uniandes.edu.co.proyecto.repositorio.UsuarioConductorRepository;
+import uniandes.edu.co.proyecto.repositorio.UsuarioRepository;
 
 import java.util.Collection;
 
@@ -16,6 +18,9 @@ public class UsuarioConductorController {
 
     @Autowired
     private UsuarioConductorRepository usuarioConductorRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     // Obtener todos los usuarios conductores
     @GetMapping
@@ -34,28 +39,34 @@ public class UsuarioConductorController {
     }
 
     // Crear un nuevo usuario conductor
-    @PostMapping
-    public ResponseEntity<String> crearUsuarioConductor(
-            @RequestParam Integer idUsuario,
-            @RequestParam String licencia,
-            @RequestParam Integer experiencia) {
-        usuarioConductorRepository.insertarUsuarioConductor(idUsuario, licencia, experiencia);
+    @PostMapping("/{idUsuario}/new/save")
+    public ResponseEntity<String> crearUsuarioConductor(@PathVariable Integer idUsuario) {
+        // Verificar que el usuario exista
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Insertar el registro en usuario_conductor
+        usuarioConductorRepository.insertarUsuarioConductor(usuario.getIdUsuario());
+
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body("Usuario conductor creado con éxito");
     }
 
     // Actualizar un usuario conductor existente
-    @PutMapping("/{idUsuario}")
-    public ResponseEntity<String> actualizarUsuarioConductor(
-            @PathVariable Integer idUsuario,
-            @RequestParam String licencia,
-            @RequestParam Integer experiencia) {
-        usuarioConductorRepository.actualizarUsuarioConductor(idUsuario, licencia, experiencia);
+    @PutMapping("/{idUsuario}/update")
+    public ResponseEntity<String> actualizarUsuarioConductor(@PathVariable Integer idUsuario) {
+        // Verificar que el usuario exista
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Actualizar -> actualmente no hay campos, se mantiene como placeholder
+        usuarioConductorRepository.actualizarUsuarioConductor(usuario.getIdUsuario());
+
         return ResponseEntity.ok("Usuario conductor actualizado con éxito");
     }
 
     // Eliminar un usuario conductor
-    @DeleteMapping("/{idUsuario}")
+    @DeleteMapping("/{idUsuario}/delete")
     public ResponseEntity<String> eliminarUsuarioConductor(@PathVariable Integer idUsuario) {
         usuarioConductorRepository.eliminarUsuarioConductor(idUsuario);
         return ResponseEntity.ok("Usuario conductor eliminado con éxito");

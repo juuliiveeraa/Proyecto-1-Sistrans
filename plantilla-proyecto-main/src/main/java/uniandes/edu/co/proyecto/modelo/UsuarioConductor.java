@@ -15,8 +15,8 @@ public class UsuarioConductor {
     private Integer idUsuario;
 
     @OneToOne
-    @MapsId   
-    @JoinColumn(name = "ID_USUARIO")
+    @MapsId
+    @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
     public UsuarioConductor() {}
