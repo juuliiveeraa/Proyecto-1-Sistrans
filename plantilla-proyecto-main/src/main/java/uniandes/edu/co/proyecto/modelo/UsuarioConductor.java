@@ -4,6 +4,7 @@ package uniandes.edu.co.proyecto.modelo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -14,7 +15,8 @@ public class UsuarioConductor {
     private Integer idUsuario;
 
     @OneToOne
-    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario")
+    @MapsId   
+    @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
 
     public UsuarioConductor() {}
