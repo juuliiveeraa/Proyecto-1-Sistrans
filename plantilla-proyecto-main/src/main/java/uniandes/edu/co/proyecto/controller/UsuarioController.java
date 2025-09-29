@@ -39,7 +39,7 @@ public class UsuarioController {
     @PostMapping("/new/save")
     public ResponseEntity<?> crearUsuario(@RequestBody Usuario usuario) {
         try {
-            usuarioRepository.insertarUsuario(usuario.getNombre(), usuario.getCorreo(), usuario.getCelular());
+            usuarioRepository.insertarUsuario(usuario.getNombre(), usuario.getCorreo(), usuario.getCelular(), usuario.getCedula(), usuario.getCalificacionPromedio());
             return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado exitosamente");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el usuario");
@@ -49,14 +49,14 @@ public class UsuarioController {
     @PostMapping("/{id}/edit/save")
     public ResponseEntity<?> actualizarUsuario(@PathVariable("id") Integer id, @RequestBody Usuario usuario) {
         try {
-            usuarioRepository.actualizarUsuario(id, usuario.getNombre(), usuario.getCorreo(), usuario.getCelular());
+            usuarioRepository.actualizarUsuario(id, usuario.getNombre(), usuario.getCorreo(), usuario.getCelular(), usuario.getCedula(), usuario.getCalificacionPromedio());
             return ResponseEntity.ok("Usuario actualizado exitosamente");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el usuario");
         }
     }
 
-    @GetMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> eliminarUsuario(@PathVariable("id") Integer id) {
         try {
             usuarioRepository.eliminarUsuario(id);

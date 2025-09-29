@@ -9,6 +9,7 @@ import uniandes.edu.co.proyecto.modelo.UsuarioServicio;
 
 import org.springframework.data.jpa.repository.Modifying;
 
+import java.sql.Date;
 import java.util.Collection;
 
 public interface UsuarioServicioRepository extends JpaRepository<UsuarioServicio, Integer> {
@@ -21,19 +22,25 @@ public interface UsuarioServicioRepository extends JpaRepository<UsuarioServicio
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO USUARIO_SERVICIO (ID_USUARIO, TIPO_SERVICIO, HISTORIAL) " +
-            "VALUES (:idUsuario, :tipoServicio, :historial)", nativeQuery = true)
+    @Query(value = "INSERT INTO USUARIO_SERVICIO (ID_USUARIO, TARJETA_NUMERO, TARJETA_NOMBRE, TARJETA_VENCIMIENTO, TARJETA_CODIGO_SEGURIDAD) " +
+                   "VALUES (:idUsuario, :tarjetaNumero, :tarjetaNombre, :tarjetaVencimiento, :tarjetaCodigoSeguridad)", 
+           nativeQuery = true)
     void insertarUsuarioServicio(@Param("idUsuario") Integer idUsuario,
-                                 @Param("tipoServicio") String tipoServicio,
-                                 @Param("historial") String historial);
-
+                                 @Param("tarjetaNumero") String tarjetaNumero,
+                                 @Param("tarjetaNombre") String tarjetaNombre,
+                                 @Param("tarjetaVencimiento") Date tarjetaVencimiento,
+                                 @Param("tarjetaCodigoSeguridad") String tarjetaCodigoSeguridad);
     @Modifying
     @Transactional
-    @Query(value = "UPDATE USUARIO_SERVICIO SET TIPO_SERVICIO = :tipoServicio, HISTORIAL = :historial " +
-            "WHERE ID_USUARIO = :idUsuario", nativeQuery = true)
+    @Query(value = "UPDATE USUARIO_SERVICIO SET TARJETA_NUMERO = :tarjetaNumero, TARJETA_NOMBRE = :tarjetaNombre, " +
+                   "TARJETA_VENCIMIENTO = :tarjetaVencimiento, TARJETA_CODIGO_SEGURIDAD = :tarjetaCodigoSeguridad " +
+                   "WHERE ID_USUARIO = :idUsuario",
+           nativeQuery = true)
     void actualizarUsuarioServicio(@Param("idUsuario") Integer idUsuario,
-                                   @Param("tipoServicio") String tipoServicio,
-                                   @Param("historial") String historial);
+                                        @Param("tarjetaNumero") String tarjetaNumero,
+                                        @Param("tarjetaNombre") String tarjetaNombre,
+                                        @Param("tarjetaVencimiento") Date tarjetaVencimiento,
+                                        @Param("tarjetaCodigoSeguridad") String tarjetaCodigoSeguridad);
 
     @Modifying
     @Transactional

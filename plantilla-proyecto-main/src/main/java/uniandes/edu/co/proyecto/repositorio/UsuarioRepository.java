@@ -26,21 +26,27 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Integer> {
     // Insertar un usuario
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO USUARIO (ID_USUARIO, NOMBRE, CORREO, CLAVE) " +
-                   "VALUES (USUARIO_SEQ.nextval, :nombre, :correo, :clave)", nativeQuery = true)
+    @Query(value = "INSERT INTO USUARIO (ID_USUARIO, NOMBRE, CORREO, CELULAR, CEDULA, CALIFICACION_PROMEDIO) " +
+                   "VALUES (USUARIO_SEQ.nextval, :nombre, :correo, :celular, :cedula, :calificacionPromedio)", 
+           nativeQuery = true)
     void insertarUsuario(@Param("nombre") String nombre,
                          @Param("correo") String correo,
-                         @Param("clave") String clave);
+                         @Param("celular") String celular,
+                         @Param("cedula") String cedula,
+                         @Param("calificacionPromedio") Double calificacionPromedio);
 
     // Actualizar un usuario
     @Modifying
     @Transactional
-    @Query(value = "UPDATE USUARIO SET NOMBRE = :nombre, CORREO = :correo, CLAVE = :clave " +
+    @Query(value = "UPDATE USUARIO SET NOMBRE = :nombre, CORREO = :correo, CELULAR = :celular, " +
+                   "CEDULA = :cedula, CALIFICACION_PROMEDIO = :calificacionPromedio " +
                    "WHERE ID_USUARIO = :id", nativeQuery = true)
     void actualizarUsuario(@Param("id") Integer id,
                            @Param("nombre") String nombre,
                            @Param("correo") String correo,
-                           @Param("clave") String clave);
+                           @Param("celular") String celular,
+                           @Param("cedula") String cedula,
+                           @Param("calificacionPromedio") Double calificacionPromedio);
 
     // Eliminar un usuario
     @Modifying

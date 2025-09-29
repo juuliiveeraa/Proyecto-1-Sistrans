@@ -56,7 +56,7 @@ public class CiudadController {
         }
     }
 
-    @GetMapping("/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> eliminarCiudad(@PathVariable("id") Integer id) {
         try {
             ciudadRepository.eliminarCiudad(id);
