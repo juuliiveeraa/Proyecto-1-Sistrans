@@ -1,0 +1,105 @@
+{
+	"info": {
+		"_postman_id": "57129ed1-f8a4-40dd-9a2c-d8b0f180d38a",
+		"name": "RFC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47426393",
+		"_collection_link": "https://danielgo2218-5240987.postman.co/workspace/Daniel-Gomez-Avila's-Workspace~bda0900a-a677-4314-8a67-e88b3d942547/collection/47426393-57129ed1-f8a4-40dd-9a2c-d8b0f180d38a?action=share&source=collection_link&creator=47426393"
+	},
+	"item": [
+		{
+			"name": "RFC1 - Histórico Servicios Usuario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/usuarios/2/servicios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"usuarios",
+						"2",
+						"servicios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC2 - Top 20 Conductores",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/conductores/top",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conductores",
+						"top"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC3 - Ingresos Vehículos Conductor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/conductores/1/vehiculos/ingresos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conductores",
+						"1",
+						"vehiculos",
+						"ingresos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RFC4 - Estadísticas por Ciudad y Rango",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/ciudades/1/estadisticas?inicio=2025-01-01&fin=2025-12-31",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ciudades",
+						"1",
+						"estadisticas"
+					],
+					"query": [
+						{
+							"key": "inicio",
+							"value": "2025-01-01"
+						},
+						{
+							"key": "fin",
+							"value": "2025-12-31"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

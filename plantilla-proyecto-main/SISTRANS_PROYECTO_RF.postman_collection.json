@@ -1,0 +1,2840 @@
+{
+	"info": {
+		"_postman_id": "6be2ffec-fd62-432b-9589-f02e50b9729f",
+		"name": "SISTRANS_PROYECTO_RF",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47426393",
+		"_collection_link": "https://danielgo2218-5240987.postman.co/workspace/Daniel-Gomez-Avila's-Workspace~bda0900a-a677-4314-8a67-e88b3d942547/collection/47426393-6be2ffec-fd62-432b-9589-f02e50b9729f?action=share&source=collection_link&creator=47426393"
+	},
+	"item": [
+		{
+			"name": "RF1",
+			"item": [
+				{
+					"name": "Registrar una Ciudad",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"\r",
+									"pm.globals.set(\"ciudad_id\", data.id_ciudad);\r",
+									"\r",
+									"console.log(\"Ciudad creada con ID:\", data.id_ciudad);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"dsadas\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ciudades/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciudades",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar una Ciudad",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Bogotá\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ciudades/{{ciudad_id}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciudades",
+								"{{ciudad_id}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RF2",
+			"item": [
+				{
+					"name": "Registrar Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Ciudad creada con ID:\", response.id_usuario);\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.environment.set(\"usuarioId\", response.id_usuario);\r",
+									"    console.log(\"✅ Usuario creado, id guardado:\", response.id_usuario);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Juandsadsarez\",\r\n  \"correo\": \"juan@cdsadsadordsaeo.com\",\r\n  \"celular\": \"3001233217\",\r\n  \"cedula\": \"432432332132121\",\r\n  \"calificacionPromedio\": 5.0\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario Servicios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UsuarioServicio creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(response)\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.collectionVariables.set(\"id_usuario_servicio\", response.id_usuario);\r",
+									"    console.log(\"✅ id_usuario_servicio guardado:\", response.id_usuario_servicio);\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosServicio/{{usuarioId}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosServicio",
+								"{{usuarioId}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario Servicios",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosServicio/{{id_usuario_servicio}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosServicio",
+								"{{id_usuario_servicio}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/{{usuarioId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"{{usuarioId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RF3",
+			"item": [
+				{
+					"name": "Registrar Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Ciudad creada con ID:\", response.id_usuario);\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.environment.set(\"usuarioId\", response.id_usuario);\r",
+									"    console.log(\"✅ Usuario creado, id guardado:\", response.id_usuario);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Juandsadsarez\",\r\n  \"correo\": \"juan@cdsadsadordsaeo.com\",\r\n  \"celular\": \"3001233217\",\r\n  \"cedula\": \"432432332132121\",\r\n  \"calificacionPromedio\": 5.0\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario Conductor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UsuarioServicio creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(response)\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.collectionVariables.set(\"id_usuario_conductor\", response.id_usuario);\r",
+									"    console.log(\"✅ id_usuario_conductor guardado:\", response.id_usuario_servicio);\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosConductores/{{usuarioId}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosConductores",
+								"{{usuarioId}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario Conductor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosConductores/{{id_usuario_conductor}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosConductores",
+								"{{id_usuario_conductor}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/{{usuarioId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"{{usuarioId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RF4",
+			"item": [
+				{
+					"name": "Registrar Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Ciudad creada con ID:\", response.id_usuario);\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.environment.set(\"usuarioId\", response.id_usuario);\r",
+									"    console.log(\"✅ Usuario creado, id guardado:\", response.id_usuario);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Juancho\",\r\n  \"correo\": \"judsaaaaaa@o.com\",\r\n  \"celular\": \"3134235674\",\r\n  \"cedula\": \"80162456\",\r\n  \"calificacionPromedio\": 3.0\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario Conductor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UsuarioServicio creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(response)\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.collectionVariables.set(\"id_usuario_conductor\", response.id_usuario);\r",
+									"    console.log(\"✅ id_usuario_conductor guardado:\", response.id_usuario_servicio);\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"9111111111111111\",\r\n  \"tarjetaNombre\": \"AndsaPerez\",\r\n  \"tarjetaVencimiento\": \"2027-09-10\",\r\n  \"tarjetaCodigoSeguridad\": \"623\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosConductores/{{usuarioId}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosConductores",
+								"{{usuarioId}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Vehiculo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Vehiculo creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Vehículo creado con ID:\", response.id_vehiculo);\r",
+									"\r",
+									"if (response.id_vehiculo) {\r",
+									"    pm.environment.set(\"vehiculoId\", response.id_vehiculo);\r",
+									"    console.log(\"✅ Vehículo creado, id guardado:\", response.id_vehiculo);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_vehiculo en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"conductor\": {\r\n    \"idUsuario\": {{id_usuario_conductor}}\r\n  },\r\n  \"tipo\": \"Automóvil\",\r\n  \"marca\": \"Mazda\",\r\n  \"modelo\": \"3\",\r\n  \"color\": \"Rojo\",\r\n  \"placa\": \"AFG223\",\r\n  \"ciudadExpedicion\": \"Bogotá\",\r\n  \"capacidad\": 4,\r\n  \"nivel\": \"Confort\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehiculos/{{id_usuario_conductor}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehiculos",
+								"{{id_usuario_conductor}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Vehiculo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehiculos/{{vehiculoId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehiculos",
+								"{{vehiculoId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario Conductor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosConductores/{{id_usuario_conductor}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosConductores",
+								"{{id_usuario_conductor}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/{{usuarioId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"{{usuarioId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RF5",
+			"item": [
+				{
+					"name": "Registrar Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Ciudad creada con ID:\", response.id_usuario);\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.environment.set(\"usuarioId\", response.id_usuario);\r",
+									"    console.log(\"✅ Usuario creado, id guardado:\", response.id_usuario);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Juancho\",\r\n  \"correo\": \"judsaaaaaa@o.com\",\r\n  \"celular\": \"3134235674\",\r\n  \"cedula\": \"80162456\",\r\n  \"calificacionPromedio\": 3.0\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario Conductor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UsuarioServicio creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(response)\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.collectionVariables.set(\"id_usuario_conductor\", response.id_usuario);\r",
+									"    console.log(\"✅ id_usuario_conductor guardado:\", response.id_usuario_servicio);\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"9111111111111111\",\r\n  \"tarjetaNombre\": \"AndsaPerez\",\r\n  \"tarjetaVencimiento\": \"2027-09-10\",\r\n  \"tarjetaCodigoSeguridad\": \"623\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosConductores/{{usuarioId}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosConductores",
+								"{{usuarioId}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Vehiculo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Vehiculo creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Vehículo creado con ID:\", response.id_vehiculo);\r",
+									"\r",
+									"if (response.id_vehiculo) {\r",
+									"    pm.environment.set(\"vehiculoId\", response.id_vehiculo);\r",
+									"    console.log(\"✅ Vehículo creado, id guardado:\", response.id_vehiculo);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_vehiculo en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"conductor\": {\r\n    \"idUsuario\": {{id_usuario_conductor}}\r\n  },\r\n  \"tipo\": \"Automóvil\",\r\n  \"marca\": \"Mazda\",\r\n  \"modelo\": \"3\",\r\n  \"color\": \"Rojo\",\r\n  \"placa\": \"AFG223\",\r\n  \"ciudadExpedicion\": \"Bogotá\",\r\n  \"capacidad\": 4,\r\n  \"nivel\": \"Confort\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehiculos/{{id_usuario_conductor}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehiculos",
+								"{{id_usuario_conductor}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Disponibilidad",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Disponibilidad creada con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Disponibilidad creada con ID:\", response.id_disponibilidad);\r",
+									"\r",
+									"if (response.id_disponibilidad) {\r",
+									"    pm.environment.set(\"disponibilidadId\", response.id_disponibilidad);\r",
+									"    console.log(\"✅ Disponibilidad creada, id guardado:\", response.id_disponibilidad);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_disponibilidad en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vehiculo\": {\r\n        \"idVehiculo\": {{vehiculoId}}\r\n    },\r\n    \"dia\": \"2025-10-02\",\r\n    \"horaInicio\": \"2025-10-02T09:00:00\",\r\n    \"horaFin\": \"2025-10-02T13:00:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/disponibilidades-vehiculo/{{vehiculoId}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"disponibilidades-vehiculo",
+								"{{vehiculoId}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar una Disponibilidad",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehiculos/{{disponibilidadId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehiculos",
+								"{{disponibilidadId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Vehiculo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehiculos/{{vehiculoId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehiculos",
+								"{{vehiculoId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario Conductor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosConductores/{{id_usuario_conductor}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosConductores",
+								"{{id_usuario_conductor}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/{{usuarioId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"{{usuarioId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RF6",
+			"item": [
+				{
+					"name": "Registrar Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Ciudad creada con ID:\", response.id_usuario);\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.environment.set(\"usuarioId\", response.id_usuario);\r",
+									"    console.log(\"✅ Usuario creado, id guardado:\", response.id_usuario);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Juancho\",\r\n  \"correo\": \"judsaaaaaa@o.com\",\r\n  \"celular\": \"3134235674\",\r\n  \"cedula\": \"80162456\",\r\n  \"calificacionPromedio\": 3.0\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario Conductor",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UsuarioServicio creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(response)\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.collectionVariables.set(\"id_usuario_conductor\", response.id_usuario);\r",
+									"    console.log(\"✅ id_usuario_conductor guardado:\", response.id_usuario_servicio);\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"9111111111111111\",\r\n  \"tarjetaNombre\": \"AndsaPerez\",\r\n  \"tarjetaVencimiento\": \"2027-09-10\",\r\n  \"tarjetaCodigoSeguridad\": \"623\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosConductores/{{usuarioId}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosConductores",
+								"{{usuarioId}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Vehiculo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Vehiculo creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Vehículo creado con ID:\", response.id_vehiculo);\r",
+									"\r",
+									"if (response.id_vehiculo) {\r",
+									"    pm.environment.set(\"vehiculoId\", response.id_vehiculo);\r",
+									"    console.log(\"✅ Vehículo creado, id guardado:\", response.id_vehiculo);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_vehiculo en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"conductor\": {\r\n    \"idUsuario\": {{id_usuario_conductor}}\r\n  },\r\n  \"tipo\": \"Automóvil\",\r\n  \"marca\": \"Mazda\",\r\n  \"modelo\": \"3\",\r\n  \"color\": \"Rojo\",\r\n  \"placa\": \"AFG223\",\r\n  \"ciudadExpedicion\": \"Bogotá\",\r\n  \"capacidad\": 4,\r\n  \"nivel\": \"Confort\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehiculos/{{id_usuario_conductor}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehiculos",
+								"{{id_usuario_conductor}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Disponibilidad",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Disponibilidad creada con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Disponibilidad creada con ID:\", response.id_disponibilidad);\r",
+									"\r",
+									"if (response.id_disponibilidad) {\r",
+									"    pm.environment.set(\"disponibilidadId\", response.id_disponibilidad);\r",
+									"    console.log(\"✅ Disponibilidad creada, id guardado:\", response.id_disponibilidad);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_disponibilidad en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vehiculo\": {\r\n        \"idVehiculo\": {{vehiculoId}}\r\n    },\r\n    \"dia\": \"2025-10-02\",\r\n    \"horaInicio\": \"2025-10-02T09:00:00\",\r\n    \"horaFin\": \"2025-10-02T13:00:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/disponibilidades-vehiculo/{{vehiculoId}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"disponibilidades-vehiculo",
+								"{{vehiculoId}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cambiar Disponibilidad",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Disponibilidad actualizada con éxito\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Disponibilidad actualizada con ID:\", response.id_disponibilidad);\r",
+									"\r",
+									"if (response.id_disponibilidad) {\r",
+									"    pm.environment.set(\"disponibilidadId\", response.id_disponibilidad);\r",
+									"    console.log(\"✅ Disponibilidad actualizada, id guardado:\", response.id_disponibilidad);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_disponibilidad en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"vehiculo\": {\r\n        \"idVehiculo\": {{vehiculoId}}\r\n    },\r\n    \"dia\": \"2025-11-02\",\r\n    \"horaInicio\": \"2025-11-02T09:00:00\",\r\n    \"horaFin\": \"2025-11-02T13:00:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/disponibilidades-vehiculo/{{vehiculoId}}/edit/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"disponibilidades-vehiculo",
+								"{{vehiculoId}}",
+								"edit",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar una Disponibilidad",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehiculos/{{disponibilidadId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehiculos",
+								"{{disponibilidadId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Vehiculo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehiculos/{{vehiculoId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehiculos",
+								"{{vehiculoId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario Conductor",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosConductores/{{id_usuario_conductor}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosConductores",
+								"{{id_usuario_conductor}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/{{usuarioId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"{{usuarioId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RF7",
+			"item": [
+				{
+					"name": "Registrar una Ciudad",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"\r",
+									"pm.globals.set(\"ciudad_id\", data.id_ciudad);\r",
+									"\r",
+									"console.log(\"Ciudad creada con ID:\", data.id_ciudad);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"dsadas\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ciudades/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciudades",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar un Punto Geografico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.globals.set(\"punto_id\", data.id_punto);\r",
+									"\r",
+									"console.log(\"Punto geográfico creado con ID:\", data.id_punto);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Punto Central\",\r\n  \"direccion\": \"Calle 123 #45-67\",\r\n  \"coordenadas\": \"4.7110,-74.0721\",\r\n  \"ciudad\": {\r\n    \"idCiudad\": {{ciudad_id}}\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/puntos-geograficos/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"puntos-geograficos",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Punto Geografico",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Bogotá\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/puntos-geograficos/{{punto_id}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"puntos-geograficos",
+								"{{punto_id}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar una Ciudad",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Bogotá\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ciudades/{{ciudad_id}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciudades",
+								"{{ciudad_id}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RF8",
+			"item": [
+				{
+					"name": "Registrar una Ciudad",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"\r",
+									"pm.globals.set(\"ciudad_id\", data.id_ciudad);\r",
+									"\r",
+									"console.log(\"Ciudad creada con ID:\", data.id_ciudad);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"dsadas\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ciudades/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciudades",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar un Punto Geografico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.globals.set(\"punto_id\", data.id_punto);\r",
+									"\r",
+									"console.log(\"Punto geográfico creado con ID:\", data.id_punto);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Punto Central\",\r\n  \"direccion\": \"Calle 123 #45-67\",\r\n  \"coordenadas\": \"4.7110,-74.0721\",\r\n  \"ciudad\": {\r\n    \"idCiudad\": {{ciudad_id}}\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/puntos-geograficos/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"puntos-geograficos",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Ciudad creada con ID:\", response.id_usuario);\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.environment.set(\"usuarioId\", response.id_usuario);\r",
+									"    console.log(\"✅ Usuario creado, id guardado:\", response.id_usuario);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"CArfdsflos\",\r\n  \"correo\": \"carlofdss@gmail.com\",\r\n  \"celular\": \"3124323211\",\r\n  \"cedula\": \"98622541\",\r\n  \"calificacionPromedio\": 3.0\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario Servicios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UsuarioServicio creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(response)\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.collectionVariables.set(\"id_usuario_servicio\", response.id_usuario);\r",
+									"    console.log(\"✅ id_usuario_servicio guardado:\", response.id_usuario_servicio);\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"8981111111111111\",\r\n  \"tarjetaNombre\": \"Lucas\",\r\n  \"tarjetaVencimiento\": \"2025-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"003\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosServicio/{{usuarioId}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosServicio",
+								"{{usuarioId}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Vehiculo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Vehiculo creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Vehículo creado con ID:\", response.id_vehiculo);\r",
+									"\r",
+									"if (response.id_vehiculo) {\r",
+									"    pm.environment.set(\"vehiculoId\", response.id_vehiculo);\r",
+									"    console.log(\"✅ Vehículo creado, id guardado:\", response.id_vehiculo);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_vehiculo en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"conductor\": {\r\n    \"idUsuario\": {{id_usuario_conductor}}\r\n  },\r\n  \"tipo\": \"Automóvil\",\r\n  \"marca\": \"Mazda\",\r\n  \"modelo\": \"3\",\r\n  \"color\": \"Rojo\",\r\n  \"placa\": \"ART423\",\r\n  \"ciudadExpedicion\": \"Bogotá\",\r\n  \"capacidad\": 4,\r\n  \"nivel\": \"Confort\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehiculos/{{id_usuario_conductor}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehiculos",
+								"{{id_usuario_conductor}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar un Servicio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Servicio creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(response);\r",
+									"\r",
+									"if (response.idServicio) {\r",
+									"    pm.collectionVariables.set(\"id_servicio\", response.idServicio);\r",
+									"    console.log(\"✅ id_servicio guardado:\", pm.collectionVariables.get(\"id_servicio\"));\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontró idServicio en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"usuario\": {\r\n    \"idUsuario\": {{id_usuario_servicio}}\r\n  },\r\n  \"vehiculo\": {\r\n    \"idVehiculo\": {{vehiculoId}}\r\n  },\r\n  \"puntoInicio\": {\r\n    \"idPunto\": {{punto_id}}\r\n  },\r\n  \"fechaSolicitud\": \"2025-10-01T10:00:00\",\r\n  \"distancia\": 15.2,\r\n  \"costo\": 35000.0,\r\n  \"horaInicio\": \"2025-10-01T09:00:00\",\r\n  \"horaFin\": \"2025-10-01T09:45:00\",\r\n  \"duracion\": 45\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/servicios/{{id_usuario_servicio}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicios",
+								"{{id_usuario_servicio}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Servicio",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosServicio/{{id_servicio}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosServicio",
+								"{{id_servicio}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Vehiculo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehiculos/{{vehiculoId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehiculos",
+								"{{vehiculoId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario Servicios",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosServicio/{{id_usuario_servicio}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosServicio",
+								"{{id_usuario_servicio}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/{{usuarioId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"{{usuarioId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Punto Geografico",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Bogotá\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/puntos-geograficos/{{punto_id}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"puntos-geograficos",
+								"{{punto_id}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar una Ciudad",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Bogotá\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ciudades/{{ciudad_id}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciudades",
+								"{{ciudad_id}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RF9",
+			"item": [
+				{
+					"name": "Registrar una Ciudad",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"\r",
+									"pm.globals.set(\"ciudad_id\", data.id_ciudad);\r",
+									"\r",
+									"console.log(\"Ciudad creada con ID:\", data.id_ciudad);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"   pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"dsadas\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ciudades/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciudades",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar un Punto Geografico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json();\r",
+									"pm.globals.set(\"punto_id\", data.id_punto);\r",
+									"\r",
+									"console.log(\"Punto geográfico creado con ID:\", data.id_punto);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Punto Central\",\r\n  \"direccion\": \"Calle 123 #45-67\",\r\n  \"coordenadas\": \"4.7110,-74.0721\",\r\n  \"ciudad\": {\r\n    \"idCiudad\": {{ciudad_id}}\r\n  }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/puntos-geograficos/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"puntos-geograficos",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Ciudad creada con ID:\", response.id_usuario);\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.environment.set(\"usuarioId\", response.id_usuario);\r",
+									"    console.log(\"✅ Usuario creado, id guardado:\", response.id_usuario);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"CArfdsflos\",\r\n  \"correo\": \"carlofdss@gmail.com\",\r\n  \"celular\": \"3124323211\",\r\n  \"cedula\": \"98622541\",\r\n  \"calificacionPromedio\": 3.0\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Usuario Servicios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"UsuarioServicio creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(response)\r",
+									"\r",
+									"if (response.id_usuario) {\r",
+									"    pm.collectionVariables.set(\"id_usuario_servicio\", response.id_usuario);\r",
+									"    console.log(\"✅ id_usuario_servicio guardado:\", response.id_usuario_servicio);\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontró id_usuario en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"8981111111111111\",\r\n  \"tarjetaNombre\": \"Lucas\",\r\n  \"tarjetaVencimiento\": \"2025-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"003\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosServicio/{{usuarioId}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosServicio",
+								"{{usuarioId}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar Vehiculo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Vehiculo creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(\"Vehículo creado con ID:\", response.id_vehiculo);\r",
+									"\r",
+									"if (response.id_vehiculo) {\r",
+									"    pm.environment.set(\"vehiculoId\", response.id_vehiculo);\r",
+									"    console.log(\"✅ Vehículo creado, id guardado:\", response.id_vehiculo);\r",
+									"} else {\r",
+									"    console.log(\"⚠️ No se encontró id_vehiculo en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"conductor\": {\r\n    \"idUsuario\": {{id_usuario_conductor}}\r\n  },\r\n  \"tipo\": \"Automóvil\",\r\n  \"marca\": \"Mazda\",\r\n  \"modelo\": \"3\",\r\n  \"color\": \"Rojo\",\r\n  \"placa\": \"ART423\",\r\n  \"ciudadExpedicion\": \"Bogotá\",\r\n  \"capacidad\": 4,\r\n  \"nivel\": \"Confort\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehiculos/{{id_usuario_conductor}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehiculos",
+								"{{id_usuario_conductor}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar un Servicio",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Servicio creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(response);\r",
+									"\r",
+									"if (response.idServicio) {\r",
+									"    pm.collectionVariables.set(\"id_servicio\", response.idServicio);\r",
+									"    console.log(\"✅ id_servicio guardado:\", pm.collectionVariables.get(\"id_servicio\"));\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontró idServicio en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"usuario\": {\r\n    \"idUsuario\": {{id_usuario_servicio}}\r\n  },\r\n  \"vehiculo\": {\r\n    \"idVehiculo\": {{vehiculoId}}\r\n  },\r\n  \"puntoInicio\": {\r\n    \"idPunto\": {{punto_id}}\r\n  },\r\n  \"fechaSolicitud\": \"2025-10-01T10:00:00\",\r\n  \"distancia\": 15.2,\r\n  \"costo\": 35000.0,\r\n  \"horaInicio\": \"2025-10-01T09:00:00\",\r\n  \"horaFin\": \"2025-10-01T09:45:00\",\r\n  \"duracion\": 45\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/servicios/{{id_usuario_servicio}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicios",
+								"{{id_usuario_servicio}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registrar un Servicio Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Servicio creado con éxito\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"let response = pm.response.json();\r",
+									"\r",
+									"console.log(response);\r",
+									"\r",
+									"if (response.idServicio) {\r",
+									"    pm.collectionVariables.set(\"id_servicio\", response.idServicio);\r",
+									"    console.log(\"✅ id_servicio guardado:\", pm.collectionVariables.get(\"id_servicio\"));\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontró idServicio en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"usuario\": {\r\n    \"idUsuario\": {{id_usuario_servicio}}\r\n  },\r\n  \"vehiculo\": {\r\n    \"idVehiculo\": {{vehiculoId}}\r\n  },\r\n  \"puntoInicio\": {\r\n    \"idPunto\": {{punto_id}}\r\n  },\r\n  \"fechaSolicitud\": \"2025-10-01T10:00:00\",\r\n  \"distancia\": 15.2,\r\n  \"costo\": 35000.0,\r\n  \"horaInicio\": \"2025-10-01T09:00:00\",\r\n  \"horaFin\": \"2025-10-01T09:45:00\",\r\n  \"duracion\": 45\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/servicios/{{id_usuario_servicio}}/new/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"servicios",
+								"{{id_usuario_servicio}}",
+								"new",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Servicio Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosServicio/{{id_servicio}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosServicio",
+								"{{id_servicio}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Servicio",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosServicio/{{id_servicio}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosServicio",
+								"{{id_servicio}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Vehiculo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/vehiculos/{{vehiculoId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"vehiculos",
+								"{{vehiculoId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario Servicios",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuariosServicio/{{id_usuario_servicio}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuariosServicio",
+								"{{id_usuario_servicio}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Usuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tarjetaNumero\": \"4111111111111111\",\r\n  \"tarjetaNombre\": \"Ana Perez\",\r\n  \"tarjetaVencimiento\": \"2027-05-01\",\r\n  \"tarjetaCodigoSeguridad\": \"123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/usuarios/{{usuarioId}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"usuarios",
+								"{{usuarioId}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar un Punto Geografico",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Bogotá\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/puntos-geograficos/{{punto_id}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"puntos-geograficos",
+								"{{punto_id}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Borrar una Ciudad",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Bogotá\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/ciudades/{{ciudad_id}}/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ciudades",
+								"{{ciudad_id}}",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RF10",
+			"item": [
+				{
+					"name": "RF10 - Review Pasajero a Conductor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idViaje\": 1,\n  \"calificacion\": 5,\n  \"comentario\": \"Excelente servicio\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/reviews/pasajero",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reviews",
+								"pasajero"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RF11",
+			"item": [
+				{
+					"name": "RF11 - Review Conductor a Pasajero",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"idViaje\": 1,\n  \"calificacion\": 4,\n  \"comentario\": \"Muy buen cliente\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/reviews/conductor",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reviews",
+								"conductor"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "id_usuario_servicio",
+			"value": ""
+		},
+		{
+			"key": "id_usuario_conductor",
+			"value": ""
+		}
+	]
+}
