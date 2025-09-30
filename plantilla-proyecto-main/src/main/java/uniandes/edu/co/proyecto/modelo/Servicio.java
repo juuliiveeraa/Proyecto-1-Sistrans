@@ -47,7 +47,7 @@ public class Servicio {
     private LocalDateTime horaFin;
 
     @Column(name = "DURACION", nullable = false)
-    private Duration duracion;
+    private Long duracion;
 
     // Getters y Setters
     public Integer getIdServicio() {
@@ -122,11 +122,11 @@ public class Servicio {
         this.horaFin = horaFin;
     }
 
-    public Duration getDuracion() {
+    public Long getDuracion() {
         return duracion;
     }
 
-    public void setDuracion(Duration duracion) {
+    public void setDuracion(Long duracion) {
         this.duracion = duracion;
     }
 }

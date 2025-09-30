@@ -21,13 +21,24 @@ public interface ServicioRepository extends JpaRepository<Servicio, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "INSERT INTO SERVICIO (ID_SERVICIO, ID_USUARIO, ID_VEHICULO, ID_PUNTO_INICIO, FECHA, COSTO) " +
-            "VALUES (SERVICIO_SEQ.NEXTVAL, :idUsuario, :idVehiculo, :idPuntoInicio, :fecha, :costo)", nativeQuery = true)
-    void insertarServicio(@Param("idUsuario") Integer idUsuario,
-                          @Param("idVehiculo") Integer idVehiculo,
-                          @Param("idPuntoInicio") Integer idPuntoInicio,
-                          @Param("fecha") String fecha,
-                          @Param("costo") Double costo);
+    @Query(value = "INSERT INTO SERVICIO " +
+        "(ID_SERVICIO, ID_USUARIO, ID_VEHICULO, ID_PUNTO_INICIO, FECHA_SOLICITUD, DISTANCIA, COSTO, HORA_INICIO, HORA_FIN, DURACION) " +
+        "VALUES (" +
+        "SERVICIO_SEQ.NEXTVAL, :idUsuario, :idVehiculo, :idPuntoInicio, " +
+        "TO_TIMESTAMP(:fechaSolicitud, 'YYYY-MM-DD HH24:MI:SS'), " +
+        ":distancia, :costo, :horaInicio, :horaFin, :duracion)", nativeQuery = true)
+        void insertarServicio(
+                @Param("idUsuario") Integer idUsuario,
+                @Param("idVehiculo") Integer idVehiculo,
+                @Param("idPuntoInicio") Integer idPuntoInicio,
+                @Param("fechaSolicitud") String fechaSolicitud,
+                @Param("distancia") Double distancia,
+                @Param("costo") Double costo,
+                @Param("horaInicio") String horaInicio,
+                @Param("horaFin") String horaFin,
+                @Param("duracion") Long duracion
+        );
+
 
     @Modifying
     @Transactional
@@ -43,4 +54,8 @@ public interface ServicioRepository extends JpaRepository<Servicio, Integer> {
     @Transactional
     @Query(value = "DELETE FROM SERVICIO WHERE ID_SERVICIO = :id", nativeQuery = true)
     void eliminarServicio(@Param("id") Integer id);
+
+    @Query(value = "SELECT * FROM SERVICIO WHERE ID_USUARIO = :idUsuario ORDER BY ID_SERVICIO DESC FETCH FIRST 1 ROWS ONLY", nativeQuery = true)
+    Servicio buscarUltimoServicioPorUsuario(@Param("idUsuario") Integer idUsuario);
+
 }
